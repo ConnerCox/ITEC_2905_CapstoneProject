@@ -8,8 +8,12 @@ package resources;
  * It defines the attributes of a firearm object.
  */
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
 
 public class Firearm implements Serializable {
 	//attributes of a Firearm
@@ -34,8 +38,15 @@ public class Firearm implements Serializable {
 	
 	//constructor
 	public Firearm(BufferedImage image, String brand, String model, String serialNum, String caliber, double estValue, String notes) {
-
-		this.image = image;
+		
+		if (image == null) {
+			try {
+			    image = ImageIO.read(new File("missingIcon.png"));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		} else
+			this.image = image;
 		this.brand = brand;
 		this.model = model;
 		this.serialNum = serialNum;

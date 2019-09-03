@@ -8,9 +8,6 @@
  * and then it stores and sorts it. This allows for easy record keeping of firearms.
  */
 package application;
-
-import java.awt.Graphics;
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -59,7 +56,7 @@ public class MainController implements Initializable {
 	@FXML private ImageView ivPicture;
 
 	@FXML private TableView<Firearm> gunTable;
-	@FXML private TableColumn<Firearm, BufferedImage> tcImage;
+	@FXML private TableColumn<Firearm, Image> tcImage;
 	@FXML private TableColumn<Firearm, String> tcBrand;
 	@FXML private TableColumn<Firearm, String> tcModel;
 	@FXML private TableColumn<Firearm, String> tcCaliber;
@@ -78,7 +75,7 @@ public class MainController implements Initializable {
 
 	public ObservableList<Firearm> list = FXCollections.observableArrayList(gunCollection);
 
-	File gunFile = new File("src\\resources\\gunCollection.file");
+	File gunFile = new File("gunFile.file");
 
 
 	@Override
@@ -88,14 +85,16 @@ public class MainController implements Initializable {
 			//create a file if none exists
 			if(!gunFile.exists()) {
 				//TODO test
-				System.out.println("Didnt exist, made file");
+				System.out.println("Didnt exist, made file at: " + gunFile.getPath());
 				gunFile.createNewFile();
 			} else {
 				//TODO test
 				System.out.println("Did exist, read from file");
 				FileInputStream fi = new FileInputStream(gunFile);
 				ObjectInputStream oi = new ObjectInputStream(fi);
-				gunCollection = (ArrayList<Firearm>) oi.readObject();
+				if(oi.available() > 0) {
+					gunCollection = (ArrayList<Firearm>) oi.readObject();
+				}
 				addSortStoreGuns();
 				oi.close();
 				fi.close();
@@ -103,22 +102,23 @@ public class MainController implements Initializable {
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("Error initializing stream for input");
+			e.printStackTrace();
+			System.out.println("Error initializing stream for input...\n" + e.getMessage());
 		} catch (ClassNotFoundException e) {
 			System.out.println("Class not found");
 			e.printStackTrace();
 		}
 
-		//populate table if firearms exist
-		tcImage.setCellValueFactory(new PropertyValueFactory<Firearm, BufferedImage>("tcImage"));
-		tcBrand.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcBrand"));
-		tcModel.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcModel"));
-		tcCaliber.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcCaliber"));
-		tcSerialNum.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcSerialNum"));
-		tcEstValue.setCellValueFactory(new PropertyValueFactory<Firearm, Double>("tcEstValue"));
-		tcNotes.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcNotes"));
-		tcDelete.setCellValueFactory(new PropertyValueFactory<Firearm, Button>("tcDelete"));
-		gunTable.setItems(list);
+//		//populate table if firearms exist
+//		tcImage.setCellValueFactory(new PropertyValueFactory<Firearm, Image>("tcImage"));
+//		tcBrand.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcBrand"));
+//		tcModel.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcModel"));
+//		tcCaliber.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcCaliber"));
+//		tcSerialNum.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcSerialNum"));
+//		tcEstValue.setCellValueFactory(new PropertyValueFactory<Firearm, Double>("tcEstValue"));
+//		tcNotes.setCellValueFactory(new PropertyValueFactory<Firearm, String>("tcNotes"));
+//		tcDelete.setCellValueFactory(new PropertyValueFactory<Firearm, Button>("tcDelete"));
+//		gunTable.setItems(list);
 
 	}
 
@@ -143,7 +143,8 @@ public class MainController implements Initializable {
 	 * Adds a new gun to the collection.
 	 */
 	public void enterGun(ActionEvent Event) {
-		//TODO if checking to make sure gun is properly entered
+		//TODO :if checking to make sure gun is properly entered
+		//TODO: Make sure there is info availible to put into gun, else do nothing
 
 		//Take everything from the textfields
 		String brand = tfBrand.getText().trim();
@@ -153,7 +154,8 @@ public class MainController implements Initializable {
 		String toParse = tfEstValue.getText().replace('$', ' ').trim();
 		double estValue = Double.parseDouble(toParse);
 		String notes = tfNotes.getText().trim();
-		BufferedImage bImg = SwingFXUtils.fromFXImage(ivPicture.getImage(), null);
+		Image image = ivPicture.getImage();
+		BufferedImage bImg = SwingFXUtils.fromFXImage(image, null);
 
 		//add gun to record
 		Firearm gunToAdd = new Firearm(bImg, brand, model, serial, caliber, estValue, notes);
@@ -200,7 +202,7 @@ public class MainController implements Initializable {
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
-			System.out.println("Error initializing stream");
+			System.out.println(e.getStackTrace()+"\nError initializing stream\n"+e.getMessage());
 		}
 		//TODO test
 		System.out.println("finished addsortstore");
