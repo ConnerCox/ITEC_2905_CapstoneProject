@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <TabPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
@@ -27,7 +27,7 @@
                            <children>
                               <HBox prefHeight="380.0" prefWidth="600.0">
                                  <children>
-                                    <VBox prefHeight="380.0" prefWidth="250.0" HBox.hgrow="ALWAYS">
+                                    <VBox prefHeight="316.0" prefWidth="289.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="270.0">
                                              <children>
@@ -106,21 +106,6 @@
                                           </HBox>
                                           <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="270.0">
                                              <children>
-                                                <Label alignment="TOP_CENTER" prefHeight="36.0" prefWidth="167.0" text="Enter attachments (seperated by commas)" textAlignment="RIGHT" wrapText="true">
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                </Label>
-                                             </children>
-                                             <VBox.margin>
-                                                <Insets top="5.0" />
-                                             </VBox.margin>
-                                             <padding>
-                                                <Insets right="10.0" />
-                                             </padding>
-                                          </HBox>
-                                          <HBox alignment="CENTER_RIGHT" prefHeight="40.0" prefWidth="270.0">
-                                             <children>
                                                 <Label alignment="TOP_CENTER" text="Notes:">
                                                    <font>
                                                       <Font size="14.0" />
@@ -139,7 +124,7 @@
                                           <Insets top="10.0" />
                                        </HBox.margin>
                                     </VBox>
-                                    <VBox prefHeight="380.0" prefWidth="271.0" HBox.hgrow="ALWAYS">
+                                    <VBox prefHeight="380.0" prefWidth="291.0" HBox.hgrow="ALWAYS">
                                        <children>
                                           <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="270.0">
                                              <VBox.margin>
@@ -194,17 +179,6 @@
                                              </padding>
                                              <children>
                                                 <TextField fx:id="tfEstValue" prefWidth="200.0" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="270.0">
-                                             <VBox.margin>
-                                                <Insets left="5.0" top="5.0" />
-                                             </VBox.margin>
-                                             <padding>
-                                                <Insets right="10.0" />
-                                             </padding>
-                                             <children>
-                                                <TextField fx:id="tfAttachments" prefWidth="200.0" />
                                              </children>
                                           </HBox>
                                           <HBox alignment="CENTER_LEFT" prefHeight="40.0" prefWidth="270.0">
@@ -272,7 +246,7 @@
                               </HBox>
                               <HBox prefHeight="100.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                                  <children>
-                                    <TableView fx:id="gunTable" editable="true" nodeOrientation="LEFT_TO_RIGHT" prefHeight="89.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
+                                    <TableView fx:id="gunTable" nodeOrientation="LEFT_TO_RIGHT" prefHeight="89.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
                                        <columns>
                                           <TableColumn fx:id="tcImage" prefWidth="100.0" resizable="false" text="Image" />
                                           <TableColumn fx:id="tcBrand" prefWidth="48.00000762939453" text="Brand" />

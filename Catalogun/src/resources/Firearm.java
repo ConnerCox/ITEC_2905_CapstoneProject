@@ -1,5 +1,7 @@
 package resources;
 
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
 /*
  * Author: Conner Cox
  * Date: June 19, 2019
@@ -7,17 +9,20 @@ package resources;
  * Description: This is the firearm class that is used in GunApplicationWindow.java. 
  * It defines the attributes of a firearm object.
  */
-import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
-import java.util.ArrayList;
-
 import javax.imageio.ImageIO;
+
+import javafx.embed.swing.SwingFXUtils;
+import javafx.scene.image.Image;
 
 public class Firearm implements Serializable {
 	//attributes of a Firearm
-	private BufferedImage image;
+	private byte[] imgArray;
 	private String brand;
 	private String model;
 	private String serialNum;
@@ -27,7 +32,7 @@ public class Firearm implements Serializable {
 	
 	//zero arg constructor
 	public Firearm() {
-		image = null;
+		imgArray = null;
 		brand = null;
 		model = null;
 		serialNum = null;
@@ -37,16 +42,23 @@ public class Firearm implements Serializable {
 	}
 	
 	//constructor
-	public Firearm(BufferedImage image, String brand, String model, String serialNum, String caliber, double estValue, String notes) {
+	public Firearm(Image image, String brand, String model, String serialNum, String caliber, double estValue, String notes) {
 		
 		if (image == null) {
+			//image = new Image("missingIcon.png");
+		} else {
 			try {
-			    image = ImageIO.read(new File("missingIcon.png"));
-			} catch (IOException e) {
+				BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+				ByteArrayOutputStream baos = new ByteArrayOutputStream();
+				ImageIO.write(bImage, "jpg", baos);
+				baos.flush();
+				imgArray = baos.toByteArray();
+				baos.close();
+			} catch (Exception e) {
+				System.out.println("Error writing image to byte array in Firearm Class");
 				e.printStackTrace();
 			}
-		} else
-			this.image = image;
+		}
 		this.brand = brand;
 		this.model = model;
 		this.serialNum = serialNum;
@@ -56,8 +68,9 @@ public class Firearm implements Serializable {
 	}
 	
 	//getters
-	public BufferedImage getImage() {
-		return image;
+	public Image getImage() {
+		Image img = new Image(new ByteArrayInputStream(imgArray));
+		return img;
 	}
 	public String getBrand() {
 		return brand;
@@ -77,10 +90,23 @@ public class Firearm implements Serializable {
 	public String getNotes() {
 		return notes;
 	}
-	
+	public byte[] getImgArray() {
+		return imgArray;
+	}
+
 	//setters
-	public void setImage(BufferedImage image) {
-		this.image = image;
+	public void setImage(Image image) {
+		try {
+			BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
+			ByteArrayOutputStream baos = new ByteArrayOutputStream();
+			ImageIO.write(bImage, "jpg", baos);
+			baos.flush();
+			imgArray = baos.toByteArray();
+			baos.close();
+		} catch (Exception e) {
+			System.out.println("Error setting image in Firearm Class");
+			e.printStackTrace();
+		}
 	}
 	public void setBrand(String brand) {
 		this.brand = brand;
@@ -99,6 +125,9 @@ public class Firearm implements Serializable {
 	}
 	public void setNotes(String notes) {
 		this.notes = notes;
+	}
+	public void setImgArray(byte[] imgArray) {
+		this.imgArray = imgArray;
 	}
 	
 	@Override
