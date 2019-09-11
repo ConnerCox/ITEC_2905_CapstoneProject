@@ -1,7 +1,4 @@
 package resources;
-
-import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 /*
  * Author: Conner Cox
  * Date: June 19, 2019
@@ -9,17 +6,17 @@ import java.awt.image.RenderedImage;
  * Description: This is the firearm class that is used in GunApplicationWindow.java. 
  * It defines the attributes of a firearm object.
  */
+import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.Serializable;
+
 import javax.imageio.ImageIO;
 
 import javafx.embed.swing.SwingFXUtils;
 import javafx.scene.image.Image;
 
+@SuppressWarnings("serial")
 public class Firearm implements Serializable {
 	//attributes of a Firearm
 	private byte[] imgArray;

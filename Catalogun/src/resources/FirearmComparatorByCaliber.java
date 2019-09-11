@@ -8,6 +8,7 @@ package resources;
 
 import java.util.Comparator;
 
+@SuppressWarnings("serial")
 public class FirearmComparatorByCaliber implements Comparator<Firearm>, java.io.Serializable { 
 	public int compare(Firearm o1, Firearm o2) {
 		String s1 = o1.getCaliber(); 

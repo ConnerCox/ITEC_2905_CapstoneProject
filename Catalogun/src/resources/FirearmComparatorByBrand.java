@@ -7,6 +7,7 @@ package resources;
  */
 import java.util.Comparator;
 
+@SuppressWarnings("serial")
 public class FirearmComparatorByBrand implements Comparator<Firearm>, java.io.Serializable { 
 	public int compare(Firearm o1, Firearm o2) {
 		String brand1 = o1.getBrand(); 

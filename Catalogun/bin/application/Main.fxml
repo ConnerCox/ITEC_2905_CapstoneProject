@@ -255,7 +255,6 @@
                                           <TableColumn fx:id="tcSerialNum" prefWidth="100.0" text="Serial #" />
                                           <TableColumn fx:id="tcEstValue" text="Est. Value" />
                                           <TableColumn fx:id="tcNotes" prefWidth="54.0" text="Notes" />
-                                          <TableColumn fx:id="tcDelete" prefWidth="89.33331298828125" text="Delete" />
                                        </columns>
                                     </TableView>
                                  </children>
