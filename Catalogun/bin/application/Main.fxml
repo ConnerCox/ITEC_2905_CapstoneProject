@@ -15,7 +15,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.MainController">
    <children>
       <TabPane maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <tabs>
@@ -248,7 +248,7 @@
                                  <children>
                                     <TableView fx:id="gunTable" nodeOrientation="LEFT_TO_RIGHT" prefHeight="89.0" prefWidth="800.0" HBox.hgrow="ALWAYS">
                                        <columns>
-                                          <TableColumn fx:id="tcImage" prefWidth="100.0" resizable="false" text="Image" />
+                                          <TableColumn fx:id="tcImageView" prefWidth="100.0" sortable="false" text="Image" />
                                           <TableColumn fx:id="tcBrand" prefWidth="48.00000762939453" text="Brand" />
                                           <TableColumn fx:id="tcModel" minWidth="0.0" text="Model" />
                                           <TableColumn fx:id="tcCaliber" text="Caliber" />

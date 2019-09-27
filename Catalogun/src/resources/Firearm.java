@@ -42,7 +42,7 @@ public class Firearm implements Serializable {
 	public Firearm(Image image, String brand, String model, String serialNum, String caliber, double estValue, String notes) {
 		
 		if (image == null) {
-			//image = new Image("missingIcon.png");
+			image = new Image("missingIcon.png");
 		} else {
 			try {
 				BufferedImage bImage = SwingFXUtils.fromFXImage(image, null);
@@ -129,7 +129,7 @@ public class Firearm implements Serializable {
 	
 	@Override
 	public String toString() {
-		String s = "Brand: "+brand+", Model: "+model+", Serial Number: "+serialNum+", Caliber: "+caliber+", EstValue: "+estValue+", and Notes: "+notes;
+		String s = "Image: "+ imgArray.toString() + "Brand: "+brand+", Model: "+model+", Serial Number: "+serialNum+", Caliber: "+caliber+", EstValue: "+estValue+", and Notes: "+notes;
 		return s;
 	}
 	

@@ -4,10 +4,11 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
-public class SimplePropertyFirearm {
+public class DisplayFirearm {
 	//attributes of a Firearm
-	private final SimpleObjectProperty<Image> image;
+	private final SimpleObjectProperty<ImageView> imageView;
 	private final SimpleStringProperty brand;
 	private final SimpleStringProperty model;
 	private final SimpleStringProperty serialNum;
@@ -16,8 +17,8 @@ public class SimplePropertyFirearm {
 	private final SimpleStringProperty notes;
 	
 	//zero arg constructor
-	public SimplePropertyFirearm() {
-		image = null;
+	public DisplayFirearm() {
+		imageView = null;
 		brand = null;
 		model = null;
 		serialNum = null;
@@ -27,8 +28,8 @@ public class SimplePropertyFirearm {
 	}
 	
 	//constructor
-	public SimplePropertyFirearm(Firearm gun) {
-		this.image = new SimpleObjectProperty<Image>(gun.getImage());
+	public DisplayFirearm(Firearm gun) {
+		this.imageView = new SimpleObjectProperty<ImageView>(new ImageView(gun.getImage()));
 		this.brand = new SimpleStringProperty(gun.getBrand());
 		this.model = new SimpleStringProperty(gun.getModel());
 		this.serialNum = new SimpleStringProperty(gun.getSerialNum());
@@ -38,8 +39,8 @@ public class SimplePropertyFirearm {
 	}
 	
 	//getters
-	public Image getImage() {
-		return image.get();
+	public ImageView getImageView() {
+		return imageView.get();
 	}
 	public String getBrand() {
 		return brand.get();
@@ -59,29 +60,6 @@ public class SimplePropertyFirearm {
 	public String getNotes() {
 		return notes.get();
 	}
-
-//	//setters
-//	public void setImage(Image image) {
-//		this.image = new SimpleObjectProperty<Image>(image);
-//	}
-//	public void setBrand(String brand) {
-//		this.brand = new SimpleStringProperty(brand);
-//	}
-//	public void setModel(String model) {
-//		this.model = new SimpleStringProperty(model);
-//	}
-//	public void setSerialNum(String serialNum) {
-//		this.serialNum = new SimpleStringProperty(serialNum);
-//	}
-//	public void setCaliber(String caliber) {
-//		this.caliber = new SimpleStringProperty(caliber);
-//	}
-//	public void setEstValue(double estValue) {
-//		this.estValue = new SimpleDoubleProperty(estValue);
-//	}
-//	public void setNotes(String notes) {
-//		this.notes = new SimpleStringProperty(notes);
-//	}
 	
 	@Override
 	public String toString() {

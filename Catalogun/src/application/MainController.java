@@ -1,8 +1,8 @@
 /*
  * Author: Conner Cox
- * Date: August 26, 2019
+ * Date: September 18, 2019
  * 
- * Version: 1.15 (halfway though first draft of version 2)
+ * Version: 1.35 
  * 
  * Description: This application allows a user to add the information and image of a firearm, 
  * and then it stores and sorts it. This allows for easy record keeping of firearms.
@@ -34,7 +34,7 @@ import javafx.scene.image.ImageView;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import resources.Firearm;
-import resources.SimplePropertyFirearm;
+import resources.DisplayFirearm;
 
 public class MainController implements Initializable {
 
@@ -47,23 +47,23 @@ public class MainController implements Initializable {
 	@FXML private TextField tfNotes;
 	@FXML private ImageView ivPicture;
 
-	@FXML private TableView<SimplePropertyFirearm> gunTable;
-	@FXML private TableColumn<SimplePropertyFirearm, Image> tcImage;
-	@FXML private TableColumn<SimplePropertyFirearm, String> tcBrand;
-	@FXML private TableColumn<SimplePropertyFirearm, String> tcModel;
-	@FXML private TableColumn<SimplePropertyFirearm, String> tcCaliber;
-	@FXML private TableColumn<SimplePropertyFirearm, String> tcSerialNum;
-	@FXML private TableColumn<SimplePropertyFirearm, Double> tcEstValue;
-	@FXML private TableColumn<SimplePropertyFirearm, String> tcNotes;
-	@FXML private TableColumn<SimplePropertyFirearm, Button> tcTimeOwned;
-	@FXML private TableColumn<SimplePropertyFirearm, Button> tcStory;
-	@FXML private TableColumn<SimplePropertyFirearm, Button> tcDelete;
+	@FXML private TableView<DisplayFirearm> gunTable;
+	@FXML private TableColumn<DisplayFirearm, ImageView> tcImageView;
+	@FXML private TableColumn<DisplayFirearm, String> tcBrand;
+	@FXML private TableColumn<DisplayFirearm, String> tcModel;
+	@FXML private TableColumn<DisplayFirearm, String> tcCaliber;
+	@FXML private TableColumn<DisplayFirearm, String> tcSerialNum;
+	@FXML private TableColumn<DisplayFirearm, Double> tcEstValue;
+	@FXML private TableColumn<DisplayFirearm, String> tcNotes;
+	@FXML private TableColumn<DisplayFirearm, Button> tcTimeOwned; //TODO: Implement
+	@FXML private TableColumn<DisplayFirearm, Button> tcStory; //TODO: Implement
+	@FXML private TableColumn<DisplayFirearm, Button> tcDelete;
 
-	//elements that do not need fxml or need persistance go here
+	//elements that do not need fxml go here
 	ArrayList<Firearm> gunCollection = new ArrayList<Firearm>();
-	ArrayList<SimplePropertyFirearm> gunCollectionSimple = new ArrayList<SimplePropertyFirearm>();
+	ArrayList<DisplayFirearm> gunCollectionSimple = new ArrayList<DisplayFirearm>();
 
-	public ObservableList<SimplePropertyFirearm> list = FXCollections.observableArrayList(gunCollectionSimple);
+	public ObservableList<DisplayFirearm> list = FXCollections.observableArrayList(gunCollectionSimple);
 	
 	File gunFile = new File("gunFile.file");
 	/**
@@ -78,12 +78,14 @@ public class MainController implements Initializable {
 				gunFile.createNewFile();
 			} else {
 				//read from the file, update programs collection with saved collection
+				//TODO: Put this in its own method, and call it when you need to update the table
 				FileInputStream fi = new FileInputStream(gunFile);
 				if (fi.available() > 0) {
 					ObjectInputStream oi = new ObjectInputStream(fi);
 					gunCollection = (ArrayList<Firearm>) oi.readObject();
 					gunCollection.forEach(e -> System.out.println(e.toString()));
-					gunCollection.forEach(e -> gunCollectionSimple.add(new SimplePropertyFirearm(e)));
+					gunCollection.forEach(e -> e.setImage(new Image("/resources/missingIcon.png")));
+					gunCollection.forEach(e -> gunCollectionSimple.add(new DisplayFirearm(e)));
 					storeGuns();
 					oi.close();
 				}
@@ -100,23 +102,18 @@ public class MainController implements Initializable {
 			e.printStackTrace();
 		}
 		
-		//test
-		ObservableList<SimplePropertyFirearm> list2 = FXCollections.observableArrayList(
-				new SimplePropertyFirearm(new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a")), 
-				new SimplePropertyFirearm(new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "h", "a", 3.4, "a"))
-);
 
-		tcImage.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, Image>("Image"));
-		tcBrand.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, String>("Brand"));
-		tcModel.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, String>("Model"));
-		tcCaliber.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, String>("Caliber"));
-		tcSerialNum.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, String>("SerialNum"));
-		tcEstValue.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, Double>("EstValue"));
-		tcNotes.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, String>("Notes"));
+		tcImageView.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, ImageView>("Image"));
+		tcBrand.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Brand"));
+		tcModel.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Model"));
+		tcCaliber.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Caliber"));
+		tcSerialNum.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("SerialNum"));
+		tcEstValue.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, Double>("EstValue"));
+		tcNotes.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Notes"));
 //		tcDelete.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, Button>("tcDelete"));
 		
 		
-		SimplePropertyFirearm test = new SimplePropertyFirearm(new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a"));
+		DisplayFirearm test = new DisplayFirearm(new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a"));
 		gunTable.setItems(list);
 
 		
@@ -132,6 +129,7 @@ public class MainController implements Initializable {
 		File selectedFile = fc.showOpenDialog(null);
 
 		if(selectedFile != null) {
+
 			Image img  = new Image(selectedFile.getPath());
 			ivPicture.setImage(img);
 		} else {
@@ -182,11 +180,7 @@ public class MainController implements Initializable {
 	/**
 	 * Add and then sort any guns added to the collection
 	 */
-	public void storeGuns() {
-		//TODO: Figure out if sorting in table works, make sure both collections of guns update simultaneously
-		
-		//ADD-update each sorted list with the complete list of guns
-		
+	public void storeGuns() {		
 		//STORE-store into file
 		try {
 			//TODO: Empty file before storing / may have to empty file, or delete then recreate
@@ -195,6 +189,7 @@ public class MainController implements Initializable {
 			ObjectOutputStream o = new ObjectOutputStream(f);
 			o.writeObject(gunCollection);
 			o.close();
+			list = FXCollections.observableArrayList(gunCollectionSimple);
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
