@@ -83,7 +83,7 @@ public class MainController implements Initializable {
 					ObjectInputStream oi = new ObjectInputStream(fi);
 					gunCollection = (ArrayList<Firearm>) oi.readObject();
 					gunCollection.forEach(e -> System.out.println(e.toString()));
-					gunCollection.forEach(e -> e.setImage(new Image("/resources/missingIcon.png")));
+//					gunCollection.forEach(e -> e.setImage(new Image("/resources/missingIcon.png")));
 					gunCollection.forEach(e -> gunCollectionSimple.add(new DisplayFirearm(e)));
 					oi.close();
 					
@@ -115,13 +115,14 @@ public class MainController implements Initializable {
 		tcNotes.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Notes"));
 //		tcDelete.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, Button>("tcDelete"));
 		
-		Firearm gun = new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a");
-		DisplayFirearm displayGun = new DisplayFirearm(gun);
-		displayGun.setImageView(new ImageView(new Image("/resources/gun.jpg"))); 
-		ArrayList<DisplayFirearm> alTest = new ArrayList();
-		alTest.add(displayGun);
-		ObservableList<DisplayFirearm> test = FXCollections.observableArrayList(alTest);
-		gunTable.setItems(test);
+//		Firearm gun = new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a");
+//		DisplayFirearm displayGun = new DisplayFirearm(gun);
+//		displayGun.setImageView(new ImageView(new Image("/resources/gun.jpg"))); 
+//		ArrayList<DisplayFirearm> alTest = new ArrayList();
+//		alTest.add(displayGun);
+//		ObservableList<DisplayFirearm> test = FXCollections.observableArrayList(alTest);
+		
+		gunTable.setItems(list);
 
 		
 	}
@@ -137,7 +138,7 @@ public class MainController implements Initializable {
 
 		if(selectedFile != null) {
 
-			Image img  = new Image(selectedFile.getPath());
+			Image img  = new Image(selectedFile.getAbsolutePath());
 			ivPicture.setImage(img);
 		} else {
 			System.out.println("File is not valid");
@@ -148,11 +149,8 @@ public class MainController implements Initializable {
 	 * Adds a new gun to the collection.
 	 */
 	public void enterGun(ActionEvent Event) {
-		//TODO: if checking to make sure gun is properly entered
-		//TODO: Make sure there is info available to put into gun, else do nothing
-
+		//If checking to make sure the necessary fields are submitted
 		if(tfBrand.getText().isEmpty() || tfModel.getText().isEmpty() || tfSerial.getText().isEmpty() || tfCaliber.getText().isEmpty() || tfEstValue.getText().isEmpty()) {
-			//TODO: prompt user to renter info
 			
 		} else {
 			//Take everything from the textfields
@@ -188,9 +186,8 @@ public class MainController implements Initializable {
 	 * Add and then sort any guns added to the collection
 	 */
 	public void storeGuns() {		
-		//STORE-store into file
+		//store into file
 		try {
-			//TODO: Empty file before storing / may have to empty file, or delete then recreate
 			if(gunFile.delete()){
 				System.out.println("File Cleared");
 			    gunFile.createNewFile();
@@ -198,8 +195,6 @@ public class MainController implements Initializable {
 			    //throw an exception indicating that the file could not be cleared
 				System.out.println("Couldnt clear File");
 			}
-//			PrintWriter pw = new PrintWriter("filepath.txt");
-//			pw.close();
 			
 			FileOutputStream f = new FileOutputStream(gunFile);
 			ObjectOutputStream o = new ObjectOutputStream(f);

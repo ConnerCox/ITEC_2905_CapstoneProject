@@ -8,8 +8,7 @@ import javafx.scene.image.ImageView;
 
 public class DisplayFirearm {
 	//attributes of a Firearm
-//	private final SimpleObjectProperty<ImageView> imageView;
-	private ImageView imageView;
+	private final SimpleObjectProperty<ImageView> imageView;
 	private final SimpleStringProperty brand;
 	private final SimpleStringProperty model;
 	private final SimpleStringProperty serialNum;
@@ -30,7 +29,7 @@ public class DisplayFirearm {
 	
 	//constructor
 	public DisplayFirearm(Firearm gun) {
-//		this.imageView = new SimpleObjectProperty<ImageView>(new ImageView(gun.getImage()));
+		this.imageView = new SimpleObjectProperty<ImageView>(new ImageView(gun.getImage()));
 		this.brand = new SimpleStringProperty(gun.getBrand());
 		this.model = new SimpleStringProperty(gun.getModel());
 		this.serialNum = new SimpleStringProperty(gun.getSerialNum());
@@ -39,15 +38,10 @@ public class DisplayFirearm {
 		this.notes = new SimpleStringProperty(gun.getNotes());
 	}
 	
-	//ImageView get and set
+	//getters
 	public ImageView getImageView() {
-		return imageView;
+		return imageView.get();
 	}
-	public void setImageView(ImageView iv) {
-		imageView = iv;
-	}
-	
-	//getters for rest
 	public String getBrand() {
 		return brand.get();
 	}

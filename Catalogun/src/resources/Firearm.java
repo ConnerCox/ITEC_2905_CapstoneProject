@@ -129,7 +129,7 @@ public class Firearm implements Serializable {
 	
 	@Override
 	public String toString() {
-		String s = "Image: "+ imgArray.toString() + "Brand: "+brand+", Model: "+model+", Serial Number: "+serialNum+", Caliber: "+caliber+", EstValue: "+estValue+", and Notes: "+notes;
+		String s = "Image: "+  "Brand: "+brand+", Model: "+model+", Serial Number: "+serialNum+", Caliber: "+caliber+", EstValue: "+estValue+", and Notes: "+notes;
 		return s;
 	}
 	
