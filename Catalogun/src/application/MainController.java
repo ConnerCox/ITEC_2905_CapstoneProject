@@ -15,6 +15,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -55,8 +56,6 @@ public class MainController implements Initializable {
 	@FXML private TableColumn<DisplayFirearm, String> tcSerialNum;
 	@FXML private TableColumn<DisplayFirearm, Double> tcEstValue;
 	@FXML private TableColumn<DisplayFirearm, String> tcNotes;
-	@FXML private TableColumn<DisplayFirearm, Button> tcTimeOwned; //TODO: Implement
-	@FXML private TableColumn<DisplayFirearm, Button> tcStory; //TODO: Implement
 	@FXML private TableColumn<DisplayFirearm, Button> tcDelete;
 
 	//elements that do not need fxml go here
@@ -65,7 +64,7 @@ public class MainController implements Initializable {
 
 	public ObservableList<DisplayFirearm> list = FXCollections.observableArrayList(gunCollectionSimple);
 	
-	File gunFile = new File("gunFile.file");
+	File gunFile = new File("gunFile.txt");
 	/**
 	 * Initialization
 	 */
@@ -86,10 +85,14 @@ public class MainController implements Initializable {
 					gunCollection.forEach(e -> System.out.println(e.toString()));
 					gunCollection.forEach(e -> e.setImage(new Image("/resources/missingIcon.png")));
 					gunCollection.forEach(e -> gunCollectionSimple.add(new DisplayFirearm(e)));
-					storeGuns();
 					oi.close();
+					
+					//Update table
+					list = FXCollections.observableArrayList(gunCollectionSimple);
+//					gunTable.setItems(list);
 				}
 				fi.close();
+				
 			}
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
@@ -112,9 +115,13 @@ public class MainController implements Initializable {
 		tcNotes.setCellValueFactory(new PropertyValueFactory<DisplayFirearm, String>("Notes"));
 //		tcDelete.setCellValueFactory(new PropertyValueFactory<SimplePropertyFirearm, Button>("tcDelete"));
 		
-		
-		DisplayFirearm test = new DisplayFirearm(new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a"));
-		gunTable.setItems(list);
+		Firearm gun = new Firearm(new Image("/resources/missingIcon.png"), "a", "a", "a", "a", 2.1, "a");
+		DisplayFirearm displayGun = new DisplayFirearm(gun);
+		displayGun.setImageView(new ImageView(new Image("/resources/gun.jpg"))); 
+		ArrayList<DisplayFirearm> alTest = new ArrayList();
+		alTest.add(displayGun);
+		ObservableList<DisplayFirearm> test = FXCollections.observableArrayList(alTest);
+		gunTable.setItems(test);
 
 		
 	}
@@ -184,20 +191,25 @@ public class MainController implements Initializable {
 		//STORE-store into file
 		try {
 			//TODO: Empty file before storing / may have to empty file, or delete then recreate
-			//gunFile.delete();
+			if(gunFile.delete()){
+				System.out.println("File Cleared");
+			    gunFile.createNewFile();
+			}else{
+			    //throw an exception indicating that the file could not be cleared
+				System.out.println("Couldnt clear File");
+			}
+//			PrintWriter pw = new PrintWriter("filepath.txt");
+//			pw.close();
+			
 			FileOutputStream f = new FileOutputStream(gunFile);
 			ObjectOutputStream o = new ObjectOutputStream(f);
 			o.writeObject(gunCollection);
 			o.close();
-			list = FXCollections.observableArrayList(gunCollectionSimple);
 		} catch (FileNotFoundException e) {
 			System.out.println("File not found");
 		} catch (IOException e) {
 			System.out.println("ADDSORTSTORE Error initializing stream\n"+e.getMessage());
 			e.printStackTrace();
 		}
-		
-		//Update table if nessesary
-		gunTable.setItems(list);
 	}
 }
