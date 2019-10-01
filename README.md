@@ -9,7 +9,7 @@ I was motivated to create this project due to having multiple family members inq
 
 ## Installation
 
-Download the zip file, and run GunApplicationWindow.java with your favorite IDE. 
+Download the zip file, and run Main.java with any IDE that supports javafx.
 
 ## Software and Resources used
 
@@ -28,38 +28,38 @@ This code executes when a firearm is entered:
 
 ```
 public void enterGun(ActionEvent Event) {
-		//If checking to make sure the necessary fields are submitted
-		if(tfBrand.getText().isEmpty() || tfModel.getText().isEmpty() || tfSerial.getText().isEmpty() || tfCaliber.getText().isEmpty() || tfEstValue.getText().isEmpty()) {
+	//If checking to make sure the necessary fields are submitted
+	if(tfBrand.getText().isEmpty() || tfModel.getText().isEmpty() || tfSerial.getText().isEmpty() || tfCaliber.getText().isEmpty() || tfEstValue.getText().isEmpty()) {
 			
-		} else {
-			//Take everything from the textfields
-			String brand = tfBrand.getText().trim();
-			String model = tfModel.getText().trim();
-			String serial = tfSerial.getText().trim();
-			String caliber = tfCaliber.getText().trim();
-			String toParse = tfEstValue.getText().replace('$', ' ').trim();
-			double estValue = Double.parseDouble(toParse);
-			String notes = tfNotes.getText().trim();
-			Image image = ivPicture.getImage();
-			
-			//add gun to record
-			Firearm gunToAdd = new Firearm(image, brand, model, serial, caliber, estValue, notes);
-			gunCollection.add(gunToAdd);
+	} else {
+		//Take everything from the textfields
+		String brand = tfBrand.getText().trim();
+		String model = tfModel.getText().trim();
+		String serial = tfSerial.getText().trim();
+		String caliber = tfCaliber.getText().trim();
+		String toParse = tfEstValue.getText().replace('$', ' ').trim();
+		double estValue = Double.parseDouble(toParse);
+		String notes = tfNotes.getText().trim();
+		Image image = ivPicture.getImage();
 
-			//update records
-			storeGuns();
+		//add gun to record
+		Firearm gunToAdd = new Firearm(image, brand, model, serial, caliber, estValue, notes);
+		gunCollection.add(gunToAdd);
 
-			//clear text fields
-			tfBrand.setText("");
-			tfModel.setText("");
-			tfSerial.setText("");
-			tfCaliber.setText("");
-			tfEstValue.setText("");
-			tfNotes.setText("");
+		//update records
+		storeGuns();
 
-			tfBrand.requestFocus();
-		}
+		//clear text fields
+		tfBrand.setText("");
+		tfModel.setText("");
+		tfSerial.setText("");
+		tfCaliber.setText("");
+		tfEstValue.setText("");
+		tfNotes.setText("");
+
+		tfBrand.requestFocus();
 	}
+}
 ```
 
 This code executes whenever the code stores the collection of firearms into the save file:
