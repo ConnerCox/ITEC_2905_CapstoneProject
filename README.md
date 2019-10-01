@@ -87,6 +87,7 @@ public void storeGuns() {
 			e.printStackTrace();
 		}
 	}
+}
 ```
 
 ## Contributors
